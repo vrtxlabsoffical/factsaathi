@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addActivity('🔍', `Verifying: "${input.substring(0, 40)}..."`);
 
     // Try real backend first, fall back to mock
-    const backendUrl = 'http://127.0.0.1:8080/verify';
+    const backendUrl = 'https://factsaathi-backend.onrender.com/verify';
     const doVerify = (result) => {
       resultBox.className = `result-box show ${result.type}`;
       document.getElementById('resultVerdict').textContent = result.verdict;
