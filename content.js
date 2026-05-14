@@ -50,17 +50,23 @@ function showToast(type, text) {
 }
 
 async function factCheck(text, bubble, loadingBadge) {
-  const skipPatterns = [
-    /^(hi|hello|hey|hii|helo|ok|okay|yes|no|thanks|thank you|bye|good|great|nice|sure|hmm|haha|lol|please|bhai|yaar|kya|kaise|acha|accha|theek|haan|nahi|karo|bhejo|dekho|bol|bata|chal|ab|re|na|mat|bas|how are|what's up|wassup|sup|namaste|salam|testing|test)/i,
-    /^[0-9\s\+\-\(\)]+$/,
-  ];
-
-  if (skipPatterns.some(p => p.test(text.trim()))) {
+  // Only scan messages that look like news claims
+  const words = text.split(' ');
+  if (words.length < 6 || words.length > 50) {
     if (loadingBadge && loadingBadge.parentNode) loadingBadge.remove();
     return;
   }
 
-  if (text.split(' ').length < 5) {
+  const skipPatterns = [
+    /^(hi|hello|hey|hii|ok|okay|yes|no|thanks|thank you|bye|sure|hmm|haha|lol|please|bhai|yaar|kaise|acha|theek|haan|nahi|karo|bhejo|bol|bata|chal|namaste|salam|test)/i,
+    /\?$/, // questions
+    /^(when|where|how|what|who|why|can|will|shall|should|would|could|is there|are there)/i,
+    /^@/, // mentions
+    /congratulations|congrats|well done|great job|amazing work|celebrate|hackathon|participation|certificate/i,
+    /^[0-9\s\+\-\(\)]+$/,
+  ];
+
+  if (skipPatterns.some(p => p.test(text.trim()))) {
     if (loadingBadge && loadingBadge.parentNode) loadingBadge.remove();
     return;
   }
