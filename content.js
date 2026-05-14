@@ -1,5 +1,5 @@
 // ─── FACTSAATHI: WhatsApp Web Content Script ─────────────────────────────────
-const BACKEND = 'http://127.0.0.1:8080/verify';
+const BACKEND = 'https://factsaathi-backend.onrender.com/verify';
 const processedMessages = new Set();
 
 // Inject animation style
@@ -60,6 +60,24 @@ function showToast(type, text) {
 }
 
 async function factCheck(text, bubble, loadingBadge) {
+  async function factCheck(text, bubble, loadingBadge) {
+  // Skip normal conversation messages
+  const skipPatterns = [
+    /^(hi|hello|hey|hii|helo|ok|okay|yes|no|thanks|thank you|bye|good|great|nice|sure|hmm|haha|lol|please|bhai|yaar|kya|kaise|acha|accha|theek|haan|nahi|karo|bhejo|dekho|bol|bata|chal|ab|re|na|mat|bas|how are|what's up|wassup|sup|namaste|salam|testing|test)/i,
+    /^[0-9\s\+\-\(\)]+$/,
+  ];
+
+  if (skipPatterns.some(p => p.test(text.trim()))) {
+    if (loadingBadge && loadingBadge.parentNode) loadingBadge.remove();
+    return;
+  }
+
+  if (text.split(' ').length < 5) {
+    if (loadingBadge && loadingBadge.parentNode) loadingBadge.remove();
+    return;
+  }
+
+  try {
   try {
     const res = await fetch(BACKEND, {
       method: 'POST',

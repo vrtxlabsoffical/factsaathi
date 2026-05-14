@@ -1,4 +1,4 @@
-const BACKEND = 'http://127.0.0.1:8080/verify';
+const BACKEND = 'https://factsaathi-backend.onrender.com/verify';
 let currentTab = 'all';
 
 const TAB_TITLES = {
@@ -78,7 +78,7 @@ document.querySelectorAll('.stat-card').forEach(card => {
 function checkBackend() {
   const el = document.getElementById('backendStatus');
   const tl = document.getElementById('tavilyStatus');
-  fetch('http://127.0.0.1:8080/docs', { signal: AbortSignal.timeout(2000) })
+  fetch('https://https://factsaathi-backend.onrender.com/docs', { signal: AbortSignal.timeout(2000) })
     .then(() => {
       el.className='status-on'; el.textContent='● CONNECTED';
       tl.className='status-on'; tl.textContent='● CONNECTED';
