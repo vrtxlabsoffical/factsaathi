@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FactSaathi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@400;600;700;800&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 320px;
+      background: #12082a;
+      color: #ede9fe;
+      font-family: 'Outfit', sans-serif;
+      overflow: hidden;
+    }
+
+    /* ─── TOP HEADER ─── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px 12px;
+      background: #170d30;
+      border-bottom: 1px solid #2d1f52;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #f59e0b 0%, #a855f7 100%);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 0 14px rgba(168,85,247,0.5);
+    }
+
+    .brand-name {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: #fff;
+    }
+
+    .status-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #f59e0b;
+      box-shadow: 0 0 8px rgba(245,158,11,0.9);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    .status-dot.active { background: #a855f7; box-shadow: 0 0 10px rgba(168,85,247,0.9); }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.82); }
+    }
+
+    /* ─── CURRENT PAGE SECTION ─── */
+    .page-section {
+      padding: 12px 16px;
+      background: #170d30;
+      border-bottom: 1px solid #2d1f52;
+    }
+
+    .page-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: #6b4fa0;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .page-url {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: #f59e0b;
+      margin-bottom: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .risk-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .risk-low    { background: #1a0a3a; color: #c084fc; border: 1px solid #4c1d95; }
+    .risk-medium { background: #451a03; color: #fbbf24; border: 1px solid #78350f; }
+    .risk-high   { background: #450a0a; color: #f87171; border: 1px solid #7f1d1d; }
+
+    /* ─── STATS ROW ─── */
+    .stats-row {
+      display: flex;
+      border-bottom: 1px solid #2d1f52;
+    }
+
+    .stat-box {
+      flex: 1;
+      padding: 14px 8px;
+      text-align: center;
+      border-right: 1px solid #2d1f52;
+    }
+
+    .stat-box:last-child { border-right: none; }
+
+    .stat-number {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-number.green  { color: #c084fc; }
+    .stat-number.yellow { color: #f59e0b; }
+    .stat-number.red    { color: #f87171; }
+
+    .stat-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #6b4fa0;
+      text-transform: uppercase;
+    }
+
+    /* ─── ACTIVITY LOG ─── */
+    .activity-section {
+      padding: 10px 16px;
+      border-bottom: 1px solid #2d1f52;
+      max-height: 110px;
+      overflow-y: auto;
+    }
+
+    .activity-section::-webkit-scrollbar { width: 3px; }
+    .activity-section::-webkit-scrollbar-thumb { background: #2d1f52; border-radius: 2px; }
+
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 4px 0;
+      border-bottom: 1px solid #1a0f35;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .activity-item:last-child { border-bottom: none; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .activity-icon { font-size: 11px; margin-top: 1px; flex-shrink: 0; }
+
+    .activity-text {
+      font-size: 11px;
+      color: #a78bca;
+      line-height: 1.4;
+      flex: 1;
+    }
+
+    .activity-time {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: #3b2566;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ─── VERIFY INPUT ─── */
+    .verify-section {
+      padding: 10px 16px;
+      border-bottom: 1px solid #2d1f52;
+    }
+
+    .verify-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: #6b4fa0;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .verify-input-row { display: flex; gap: 6px; }
+
+    .verify-input {
+      flex: 1;
+      background: #1a0f35;
+      border: 1px solid #2d1f52;
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      color: #ede9fe;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .verify-input:focus { border-color: #a855f7; }
+    .verify-input::placeholder { color: #3b2566; }
+
+    .verify-btn {
+      background: linear-gradient(135deg, #f59e0b, #a855f7);
+      border: none;
+      border-radius: 6px;
+      padding: 7px 12px;
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .verify-btn:hover { opacity: 0.85; }
+    .verify-btn:active { transform: scale(0.97); }
+    .verify-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ─── RESULT BOX ─── */
+    .result-box {
+      margin: 0 16px 10px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      line-height: 1.5;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .result-box.show { display: block; }
+    .result-box.verified   { background: #1a0a3a; border: 1px solid #6d28d9; color: #c084fc; }
+    .result-box.fake       { background: #450a0a; border: 1px solid #7f1d1d; color: #fca5a5; }
+    .result-box.misleading { background: #451a03; border: 1px solid #92400e; color: #fcd34d; }
+    .result-box.loading    { background: #1a0f35; border: 1px solid #2d1f52; color: #6b4fa0; }
+
+    .result-verdict { font-weight: 800; font-size: 12px; margin-bottom: 4px; }
+
+    /* ─── FOOTER STATUS ─── */
+    .footer-status {
+      padding: 7px 16px;
+      background: #0d0620;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border-bottom: 1px solid #2d1f52;
+    }
+
+    .footer-status-text {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: #3b2566;
+      text-transform: uppercase;
+    }
+
+    .footer-status-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #a855f7;
+      box-shadow: 0 0 6px rgba(168,85,247,0.9);
+    }
+
+    /* ─── DASHBOARD BUTTON ─── */
+    .dashboard-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px;
+      background: #170d30;
+      border: none;
+      color: #ede9fe;
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .dashboard-btn:hover { background: #1f1040; color: #f59e0b; }
+
+    .dashboard-btn svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* ─── SCANNING ANIMATION ─── */
+    .scan-bar {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #a855f7, #f59e0b, transparent);
+      background-size: 200% 100%;
+      animation: scan-sweep 2s linear infinite;
+    }
+
+    @keyframes scan-sweep {
+      0%   { background-position: -100% 0; }
+      100% { background-position: 300%  0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="scan-bar" id="scanBar"></div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="brand">
+    <div class="brand-icon">🛡</div>
+    <span class="brand-name">FactSaathi</span>
+  </div>
+  <div class="status-dot" id="statusDot"></div>
+</div>
+
+<!-- CURRENT PAGE -->
+<div class="page-section">
+  <div class="page-label">Current Page</div>
+  <div class="page-url" id="pageUrl">loading...</div>
+  <span class="risk-badge" id="riskBadge">Scanning...</span>
+</div>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat-box">
+    <div class="stat-number green" id="statScanned">0</div>
+    <div class="stat-label">Scanned</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-number yellow" id="statWarnings">0</div>
+    <div class="stat-label">Real News</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-number red" id="statThreats">0</div>
+    <div class="stat-label">Fake News</div>
+  </div>
+</div>
+
+<!-- ACTIVITY LOG -->
+<div class="activity-section" id="activityLog">
+  <div class="activity-item">
+    <span class="activity-icon">🔍</span>
+    <span class="activity-text">Initializing page scan...</span>
+    <span class="activity-time" id="initTime"></span>
+  </div>
+</div>
+
+<!-- VERIFY INPUT -->
+<div class="verify-section">
+  <div class="verify-label">Quick Verify</div>
+  <div class="verify-input-row">
+    <input class="verify-input" id="verifyInput" type="text" placeholder="Paste claim or headline..." />
+    <button class="verify-btn" id="verifyBtn">Check</button>
+  </div>
+</div>
+
+<!-- RESULT BOX -->
+<div class="result-box" id="resultBox">
+  <div class="result-verdict" id="resultVerdict"></div>
+  <div id="resultExplanation"></div>
+</div>
+
+<!-- FOOTER STATUS -->
+<div class="footer-status">
+  <div class="footer-status-dot"></div>
+  <span class="footer-status-text">FactSaathi · Autonomous Protection Active</span>
+  <div class="footer-status-dot"></div>
+</div>
+
+<!-- VIEW DASHBOARD BUTTON -->
+<button class="dashboard-btn" id="dashboardBtn">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 3h8v8H3zm0 10h8v8H3zm10-10h8v8h-8zm0 10h8v8h-8z"/>
+  </svg>
+  View Dashboard
+</button>
+
+<script src="popup.js"></script>
+</body>
+</html>
